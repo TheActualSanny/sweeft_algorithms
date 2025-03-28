@@ -1426,6 +1426,64 @@ def two_by_three(board: list):
     return -1
 
 
+# 49. Queue Implementation Solved
+
+class MyCircularQueue:
+    def __init__(self, k):
+        ''' 
+            K will be the max size of our queue
+        '''
+        self.front = 0
+        self.rear = -1
+        self.size = 0
+        self.max_size = k
+        self.queue = [0] * k
+
+
+    def enQueue(self, value: int) -> bool:
+        '''
+            If the queue is full, returns False.
+            Else it calculates the correct rear index based on max_size, sets the value on that index
+            and increments the size by 1.
+        '''
+        if self.isFull():
+            return False
+        self.rear = (self.rear + 1) % self.max_size
+        self.queue[self.rear] = value
+        self.size += 1
+        return True
+
+    def deQueue(self) -> bool:
+        '''
+            Exact same logic as enQueue, but instead of incrementing, we now decriment it and modify the front index instead of 
+            the rear.
+        '''
+        if self.isEmpty():
+            return False
+        self.front = (self.front + 1) % self.max_size
+        self.size -= 1
+        return True
+
+    def Front(self) -> int:
+        if not self.isEmpty():
+            return self.queue[self.front]
+        else:
+            return -1
+
+    def Rear(self) -> int:
+        if not self.isEmpty():
+            return self.queue[self.rear]
+        else:
+            return -1
+    
+    def isEmpty(self) -> bool:
+        '''If the queue is empty, returns True'''
+        return self.size == 0
+    
+    def isFull(self) -> bool:
+        ''' If the queue is full, returns True '''
+        return self.max_size == self.size
+
 # 50. Different ways to group Solved
 
 def different_groups(expr: str) -> list:

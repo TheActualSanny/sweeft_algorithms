@@ -1464,3 +1464,29 @@ def different_groups(expr: str) -> list:
         return [int(expr)]
     return res
 
+# 45. Perfect square Solved
+
+def perfect_squares(n: int) -> int:
+    '''
+        The solution to this problem is also written using a dynamic progrmaming approach. 
+        First we instantiate a cache list. All of the values in cache are n because, in worst case scenario, we will need
+        n amount of 1-s to get to that target.
+
+        Then we start breaking the problem into subproblems. For each target, we are going to find the minimum number of
+        numbers before that target that are perfect squares and sum up to that target.
+
+        If the square is greater than target, we don't need that value so we break the inner loop. Else, we cache the minimum between 
+        the previous value and cache[target - square] + 1. 
+
+        Finally, we return the last element, which will contain least amount. 
+    '''
+    cache = [n] * (n + 1)
+    cache[0] = 0
+
+    for target in range(1, n + 1):
+        for s in range(1, target + 1):
+            square = s ** 2
+            if target < square:
+                break
+            cache[target] = min(cache[target], cache[target - square ] + 1)
+    return cache[n]

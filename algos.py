@@ -723,7 +723,11 @@ def partition_labels(s: str) -> list:
 
 def min_coins(n: int, denoms: list) -> int:
     '''
+        We use dynamic programming to solve this. We break down n into smaller subproblems.
 
+        We count in how many different ways we can make each number in range(1, n).
+
+        We cache the results so that we reuse them. 
     '''
     dyn = [n + 1] * (n + 1)
     dyn[0] = 0
@@ -1105,6 +1109,18 @@ def count_substrings(s: str) -> int:
 # 40. Airplane Seat Assignment 
 
 def airplane_seat(n: int) -> float:
+    '''
+        Essentially, whether or not the nth passenger sits on the correct seat is only based on which seat
+        the first passenger sits on. The chances that the first passenger gets the correct seat is 1/n, the chance that the passenger
+        won't is (n - 1) / n.
+        If the latter is the case, the first passenger must not take the nth passenger's seat.
+
+        So there are 2 cases which satisfy the constraint, and the probability for the first passenger is : P1 = 1/n + (n-1)/n * P2
+        For P2 it is P2 = 1 / (n  - 1) + (n - 2)/ (n - 1) * P3 and so on..
+        When we get to the last one, we get Px = 1/2 + 0. If we recursively insert this into the previous expressions, we get 1/2.
+
+        Of course, if n is 1, then it is guaranteed, as the first passenger chooses a seat randomly.
+    '''
     if n == 1:
         return 1
     elif n >= 2:

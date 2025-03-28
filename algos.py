@@ -1425,3 +1425,42 @@ def two_by_three(board: list):
                 q.append((new_state, moves + 1))
     return -1
 
+
+# 50. Different ways to group Solved
+
+def different_groups(expr: str) -> list:
+    '''
+        For every expression, we must split it once we see a numerical operator. For instance, for 2 - 1  - 1, we can split it 
+        at the first - and we will have: 2 and (1 - 1), or the second minus and we will have (2 - 1) and 1.
+
+        Essentially, once we break it into 2 parts, we must then do the same for the left and right sides recursively.
+        The base case will be when the expression contains a single number, as we can not break that expression down any further.
+
+        If it isnt, we get the left_results and the right_results for each function call, and we parse those results according to the
+        numerical operation that is in the expression.
+        Finally, we return the res list
+
+    '''
+   
+
+    res = []
+    for i in range(len(expr)):
+        if expr[i] in '-+*':
+            left = expr[:i]
+            right = expr[i + 1:]
+
+            left_rslts = different_groups(left)
+            right_rslts = different_groups(right)
+
+            for b in left_rslts:
+                for r in right_rslts:
+                    if expr[i] == '+':
+                        res.append(b + r)
+                    elif expr[i] == '-':
+                        res.append(b - r)
+                    elif expr[i] == '*':
+                        res.append(b * r)
+    if expr.isdigit():
+        return [int(expr)]
+    return res
+
